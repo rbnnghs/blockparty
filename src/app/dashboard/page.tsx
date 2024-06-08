@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div>
-      <p>Splash screen</p>
+      <p>Dashboard home screen</p>
     </div>
   );
 }
