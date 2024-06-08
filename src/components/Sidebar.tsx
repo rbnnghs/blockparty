@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Sidebar() {
   return (
-    <div className="h-full bg-slate-50 p-6 border-r border-black border-opacity-10">
+    <div className="h-full">
       <Link href={"/"}>
         <p className="text-xl font-medium py-4">BlockCloud</p>
       </Link>
