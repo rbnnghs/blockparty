@@ -1,0 +1,171 @@
+/* styles.module.css */
+
+.footer {
+  background: radial-gradient (71.92% 71.92% at 26.15% 92.69%, #8D9488 0%, rgba (13, 148, 136, 0) 188%);
+  filter: blur (192px);
+  transform: matrix(-1, 0, 8,
+  0, 0);
+  color: #000;
+
+  /* Other styles for the footer */
+  padding: 3rem 0;
+  transition: opacity 0.3s ease-in-out;
+
+  border-top: 1px solid #0000000a;
+  /* box-shadow: 0 0.5px 0.5px #d7d7d7, 0 -0.125px 1.25px #b7b7b7 inset; */
+}
+
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    /* margin-bottom: 2rem; */
+
+    /* margin-top: 30px;
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr; */
+  }
+  
+  .section {
+    display: flex;
+    flex-direction: column;
+
+    /* margin-top: 30px; */
+    /* text-decoration: none; */
+    /* display: grid; */
+    /* grid-template-columns: 1fr 1fr;  */
+  }
+  
+  .title {
+    /* font-size: 1.5rem; */
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .form {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    margin-right: 1rem;
+  }
+  
+  .button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  
+  .primary {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .button:hover {
+    opacity: 0.9;
+  }
+  
+  .links {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .link {
+    font-size: 1rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    margin-bottom: 1rem;
+    /* min-width: min(180px, 100%); */
+  }
+  
+  .link:hover {
+    opacity: 0.7;
+  }
+  
+  .shockwaveContainer {
+    display: flex;
+    align-items: center; /* Center align vertically */
+    gap: 8px; /* Space between icon and title */
+    margin: 0 auto;
+  }
+  
+  .shockwave {
+    width: 8px;
+    height: 8px;
+    background-color: #37bb3b;
+    border-radius: 50%;
+    position: relative;
+  }
+  
+  @keyframes shockwave {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+  
+  .shockwave::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    border: 1px solid #37BB3B;
+    opacity: 0;
+    animation: shockwave 1.5s ease-out infinite;
+  }
+  
+  .shockwaveIcon {
+    width: 8px; /* Increased for visual impact */
+    height: 8px; /* Increased for visual impact */
+    background-color: #37bb3b;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center; /* Center the shockwave effect */
+    align-items: center;
+    position: relative;
+  }
+  
+  .shockwaveTitle {
+    color: #73757a;
+    font-family: TWK Lausanne Half-Weight, sans-serif;
+    font-size: 16px;
+    line-height: 109.1%;
+    letter-spacing: 0.05em;
+  }
+  
+  @media screen and (max-width: 767px) {
+    .shockwaveTitle {
+      font-size: 12px;
+    }
+  }
+  

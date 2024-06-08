@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
-import Sidebar from "../../../components/Sidebar";
+import Sidebar from "../../components/Sidebar";
 
 
 export default function RootLayout({
