@@ -1,0 +1,27 @@
+.container {
+    padding: 2rem;
+  }
+  
+  .header {
+    margin-bottom: 2rem;
+  }
+  
+  .selectBox {
+    margin-bottom: 2rem;
+  }
+  
+  .gridContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  
+  .paper {
+    padding: 1.5rem;
+    cursor: move;
+  }
+  
+  .connectedServer {
+    margin-top: 2rem;
+  }
+  

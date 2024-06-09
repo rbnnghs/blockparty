@@ -1,8 +1,7 @@
-'use client'
+'use client';
 
 import { useState } from 'react';
-import { Container, MenuItem, Select, Typography, Box, Paper, Grid, Button, Tooltip } from '@mui/material';
-import Draggable from 'react-draggable';
+import { Container, MenuItem, Select, Typography, Paper, Grid, Button, Tooltip } from '@mui/material';
 
 const servers = [
   { id: 1, name: 'Server 1', region: 'North America', load: 30, latency: 50, bandwidth: 1000, cost: 10 },
@@ -31,58 +30,47 @@ const Dashboard = () => {
   };
 
   return (
-    <Container>
-      {/* <Typography variant="h4" component="h1" gutterBottom>
-        Blockchain-Powered Distributed Servers Dashboard
-      </Typography> */}
-      <Box sx={{ marginBottom: 2 }}>
-        <Select value={region} onChange={handleRegionChange}>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Blockchain-Powered Distributed Servers Dashboard</h1>
+      <div className="mb-4">
+        <Select value={region} onChange={handleRegionChange} className="border p-2 rounded">
           <MenuItem value="North America">North America</MenuItem>
           <MenuItem value="Europe">Europe</MenuItem>
           <MenuItem value="Asia">Asia</MenuItem>
           {/* Add more regions as needed */}
         </Select>
-      </Box>
-      <Grid container spacing={3}>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {servers.filter(server => server.region === region).map((server) => (
-          <Grid item xs={12} sm={6} md={4} key={server.id}>
-            {/* <Draggable> */}
-              <Paper elevation={3} sx={{ padding: 2, cursor: 'move' }}>
-                <Typography variant="h6">{server.name}</Typography>
-                <Typography variant="body2">Region: {server.region}</Typography>
-                <Typography variant="body2">Load: {server.load}%</Typography>
-                <Typography variant="body2">Latency: {server.latency} ms</Typography>
-                <Typography variant="body2">Bandwidth: {server.bandwidth} Mbps</Typography>
-                <Typography variant="body2">Cost: {server.cost} XRP per compute unit</Typography>
-                <Tooltip title="Connect to the best and closest server for your LLM project">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    sx={{ marginTop: 2 }}
-                    onClick={() => handleConnect(server)}
-                  >
-                    Connect
-                  </Button>
-                </Tooltip>
-              </Paper>
-            {/* </Draggable> */}
-          </Grid>
+          <Paper key={server.id} className="p-4 border rounded">
+            <h2 className="text-xl font-semibold">{server.name}</h2>
+            <p>Region: {server.region}</p>
+            <p>Load: {server.load}%</p>
+            <p>Latency: {server.latency} ms</p>
+            <p>Bandwidth: {server.bandwidth} Mbps</p>
+            <p>Cost: {server.cost} XRP per compute unit</p>
+            <Tooltip title="Connect to the best and closest server for your LLM project">
+              <Button
+                variant="contained"
+                color="primary"
+                className="mt-2"
+                onClick={() => handleConnect(server)}
+              >
+                Connect
+              </Button>
+            </Tooltip>
+          </Paper>
         ))}
-      </Grid>
+      </div>
       {selectedServer && (
-        <Box sx={{ marginTop: 4 }}>
-          <Typography variant="h5">Connected to {selectedServer.name}</Typography>
-          <Typography variant="body1">
-            Your LLM project is now hosted on {selectedServer.name} located in {selectedServer.region}. Enjoy low latency and high bandwidth for optimal performance.
-          </Typography>
-          <Typography variant="body1">
-            Cost: {selectedServer.cost} XRP per compute unit.
-          </Typography>
-        </Box>
+        <div className="mt-8 p-4 border rounded">
+          <h2 className="text-xl font-semibold">Connected to {selectedServer.name}</h2>
+          <p>Your LLM project is now hosted on {selectedServer.name} located in {selectedServer.region}. Enjoy low latency and high bandwidth for optimal performance.</p>
+          <p>Cost: {selectedServer.cost} XRP per compute unit.</p>
+        </div>
       )}
-    </Container>
+    </div>
   );
 };
 
 export default Dashboard;
-
