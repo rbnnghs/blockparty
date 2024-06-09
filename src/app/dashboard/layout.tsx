@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
-import Sidebar from "../../components/Sidebar";
+// import Sidebar from "../../components/Sidebar";
 
 
 export default function RootLayout({
@@ -11,7 +11,7 @@ export default function RootLayout({
 }>) {
   return (
     <main className="grid grid-cols-[20rem_auto] min-h-screen flex-col">
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <div className="p-16">
         {children}
       </div>

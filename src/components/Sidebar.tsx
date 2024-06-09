@@ -14,9 +14,6 @@ export default function Sidebar() {
           <p className="py-2 hover:-translate-y-0.5 transition-all duration-200">Host</p>
         </Link>
       </div>
-      {/* <Link href={"/dashboard/account"}>
-        <p>Account</p>
-      </Link> */}
     </div>
   )
 }

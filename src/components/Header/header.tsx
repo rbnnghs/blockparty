@@ -3,7 +3,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import Link from "next/link";
 import styles from "./styles.module.css";
-import Icon from "../Icon/icon";
+import Icon from "../../../public/assets/cloudicon.png";
 // import { useSession, signOut, signIn } from "next-auth/react";
 import Sidebar from "../Sidebar";
 import {RxHamburgerMenu, RxCross2} from "react-icons/rx";
@@ -30,7 +30,7 @@ export function Header() {
   const renderDesktopNav = () => (
     <div className={`${styles.container} ${styles.flex} ${styles.between} ${styles.py}`}>
       <Link href={"/"} className={`${styles.title} ${styles.hover}`}>
-        <Icon /> Cloudblocks
+        <Image src={Icon} width={50} height={100} /> Cloudblocks
       </Link>
       <div className={`${styles.flex} ${styles.items}`}>
         <Link href="/pricing" className={`${styles.link} ${styles.hover}`}>
