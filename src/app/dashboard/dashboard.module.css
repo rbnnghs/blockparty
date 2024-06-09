@@ -1,27 +1,65 @@
 .container {
-    padding: 2rem;
-  }
-  
-  .header {
-    margin-bottom: 2rem;
-  }
-  
-  .selectBox {
-    margin-bottom: 2rem;
-  }
-  
-  .gridContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-  }
-  
-  .paper {
-    padding: 1.5rem;
-    cursor: move;
-  }
-  
-  .connectedServer {
-    margin-top: 2rem;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.error {
+  color: red;
+}
+
+.selectBox {
+  margin-bottom: 16px;
+}
+
+.select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.cardHeader {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.cardBody {
+  margin-top: 8px;
+}
+
+.cardFooter {
+  margin-top: 16px;
+}
+
+.button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.mt8 {
+  margin-top: 32px;
+}

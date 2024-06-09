@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 import Image from "next/image";
 import Icon from "../../../public/assets/cloudicon.png";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -12,6 +13,7 @@ import styles from './styles.module.css';
 const Header = () => {
   const matches = useMediaQuery('(min-width:768px)');
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -24,9 +26,20 @@ const Header = () => {
         <span>Cloudblocks</span>
       </Link>
       <div className={`${styles.items}`}>
-        <Link href="/dashboard" className={`${styles.dashboard}`}>
-          Dashboard
-        </Link>
+      {pathname === '/dashboard' ? (
+          <>
+            <Link href="/dashboard" className={`${styles.dashboard}`}>
+              Servers
+            </Link>
+            <Link href="/dashboard/business" className={`${styles.dashboard}`}>
+              Tasks
+            </Link>
+          </>
+        ) : (
+          <Link href="/dashboard" className={`${styles.dashboard}`}>
+            Dashboard
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -85,11 +98,26 @@ const Header = () => {
         {showMenu && (
           <div className={`${styles.absolute} ${styles.dropdownmenu}`} role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
             <div className="py-1" role="none">
-              <Link href="/dashboard">
-                <span className={`${styles.dropdownitem}`} role="menuitem">
-                  Dashboard
-                </span>
-              </Link>
+              {router.pathname === '/dashboard' ? (
+                <>
+                  <Link href="/server">
+                    <span className={`${styles.dropdownitem}`} role="menuitem">
+                      Servers
+                    </span>
+                  </Link>
+                  <Link href="/task">
+                    <span className={`${styles.dropdownitem}`} role="menuitem">
+                      Tasks
+                    </span>
+                  </Link>
+                </>
+              ) : (
+                <Link href="/dashboard">
+                  <span className={`${styles.dropdownitem}`} role="menuitem">
+                    Dashboard
+                  </span>
+                </Link>
+              )}
             </div>
           </div>
         )}
