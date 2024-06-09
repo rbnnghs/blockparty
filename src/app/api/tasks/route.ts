@@ -10,13 +10,16 @@ export async function GET(request: NextRequest) {
 
 
 export async function POST(request: NextRequest) {
-  const { id, code, maxspend, wallet_address } = await request.json()
+  const { id, code, maxspend, wallet_address, fulfillment, condition, sequence } = await request.json()
+
+  console.log(fulfillment, condition, sequence)
 
   await prisma.tasks.create({
     data: {
-      id, code, maxspend, wallet_address, status: "pending"
+      id, code, maxspend, wallet_address, status: "pending", fulfillment, condition, sequence
     }
   })
 
   return NextResponse.json({ status: "success" })
 }
+

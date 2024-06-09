@@ -12,5 +12,8 @@ model tasks {
   code           String
   maxspend       Int
   wallet_address String
-  status         String
+  status         String @default("pending")
+  condition      String
+  fulfillment    String
+  sequence       Int
 }

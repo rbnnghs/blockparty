@@ -25,7 +25,7 @@ end
 `;
 
 export default function BusinessPage() {
-  const { wallet, balance } = useContext(XrplContext);
+  const { wallet, balance, createEscrow } = useContext(XrplContext);
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [taskFormOpen, setTaskFormOpen] = useState(false);
@@ -37,11 +37,17 @@ export default function BusinessPage() {
     if (!maxSpend) {
       return;
     }
+    const resp = await createEscrow(maxSpend)
+    console.log(resp)
+    if (!resp) {
+      return;
+    }
     await axios.post("/api/tasks", {
       id: makeid(10),
       code,
       maxspend: maxSpend,
       wallet_address: wallet?.classicAddress ?? "",
+      ...resp
     });
     setTasks((tasks) => [
       ...tasks,
@@ -104,7 +110,7 @@ export default function BusinessPage() {
             <input
               value={maxSpend}
               onChange={(e) =>
-                setMaxSpend(Number.parseInt(e.target.value ?? "0"))
+                setMaxSpend(Number.parseFloat(e.target.value ?? "0"))
               }
               placeholder="Max Compute Spend (20 XRP)"
               type="number"
