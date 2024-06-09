@@ -10,7 +10,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="grid grid-cols-[20rem_auto] min-h-screen flex-col">
+    <main className="min-h-screen flex-col">
       {/* <Sidebar/> */}
       <div className="p-16">
         {children}
