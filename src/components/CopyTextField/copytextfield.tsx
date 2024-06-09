@@ -3,7 +3,7 @@ import CopyIcon from "../Icons/CopyIcon";
 export default function CopyTextField({ value, placeholder, hidden }: { value: string | null, placeholder: string, hidden?: boolean }) {
   return (
     <div className="flex gap-4 w-full items-center relative">
-      <p className="py-2 px-4 text-sm grow border overflow-x-scroll border-black border-opacity-10 rounded-lg focus:outline-none text-stone-400 bg-stone-50">
+      <p className="py-2 px-4 text-sm grow border overflow-x-scroll border-black border-opacity-10 rounded-lg focus:outline-none text-slate-400 bg-slate-50">
         {(hidden ? value?.replaceAll(/./g, "•") : value) ?? placeholder}
       </p>
       <button 
