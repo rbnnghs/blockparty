@@ -1,4 +1,4 @@
-import { Header } from "../components/Header/header";
+import Header from "../components/Header/header";
 import { HeroSection } from "../components/HeroSection/herosection";
 import Image from "next/image";
 import Link from "next/link";

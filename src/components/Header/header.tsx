@@ -2,25 +2,15 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import styles from "./styles.module.css";
 import Image from "next/image";
 import Icon from "../../../public/assets/cloudicon.png";
-// import { useSession, signOut, signIn } from "next-auth/react";
-import Sidebar from "../Sidebar";
-import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
-import { FaChevronDown, FaTools, FaCreditCard, FaSignOutAlt } from 'react-icons/fa'; // Import desired icons
-import { MdGrid3X3, MdOutlineSpa, MdOutlineSpaceDashboard, MdSignalWifiStatusbarNotConnected } from "react-icons/md";
-import { PiSignOut } from "react-icons/pi";
-import { MdPriceCheck } from "react-icons/md";
-import { IoIosPricetags } from "react-icons/io";
-import { IoDocumentOutline, IoPricetagsOutline } from "react-icons/io5";
-import { CiDatabase, CiLogin } from "react-icons/ci";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoPricetagsOutline, IoDocumentOutline } from "react-icons/io5";
 import { useMediaQuery } from "@mui/material";
+import styles from './styles.module.css';
 
-export function Header() {
-  // const { data: session, status } = useSession();
+const Header = () => {
   const matches = useMediaQuery('(min-width:768px)');
-
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
@@ -28,35 +18,24 @@ export function Header() {
   };
 
   const renderDesktopNav = () => (
-    <div className={`${styles.container} ${styles.flex} ${styles.between} ${styles.py}`}>
-      <Link href={"/"} className={`${styles.title} ${styles.hover}`}>
-        <Image src={Icon} width={50} height={50} alt="Cloudblocks" /> Cloudblocks
+    <div className={`${styles.container}`}>
+      <Link href="/" className={`${styles.title}`}>
+        <Image src={Icon} width={50} height={50} alt="Cloudblocks" />
+        <span>Cloudblocks</span>
       </Link>
-      <div className={`${styles.flex} ${styles.items}`}>
-        <Link href="/pricing" className={`${styles.link} ${styles.hover}`}>
-          Pricing
+      <div className={`${styles.items}`}>
+        <Link href="/dashboard" className={`${styles.dashboard}`}>
+          Dashboard
         </Link>
-        <Link target="_blank" rel="noopener noreferrer" href="https://pathway.mintlify.app/" className={`${styles.link} ${styles.hover}`}>
-          Docs
-        </Link>
-        {/* Uncomment the following lines if you have session management */}
-        {/* {status === "authenticated" ? (
-          <Link href="/dashboard" className={`${styles.dashboard} ${styles.hover}`}>
-            Dashboard
-          </Link>
-        ) : (
-          <Link href={"/signin"} className={`${styles.dashboard} ${styles.hover}`}>
-            Sign In
-          </Link>
-        )} */}
       </div>
     </div>
   );
 
   const renderMobileNav = () => (
-    <div className={`${styles.container} ${styles.flex} ${styles.between} ${styles.py}`}>
-      <Link href={"/"} className={`${styles.title} ${styles.hover}`}>
-        <Image src={Icon} width={50} height={50} alt="Cloudblocks" /> Cloudblocks
+    <div className={`${styles.container}`}>
+      <Link href="/" className={`${styles.title}`}>
+        <Image src={Icon} width={50} height={50} alt="Cloudblocks" />
+        <span>Cloudblocks</span>
       </Link>
       <DropdownMenuMobile />
     </div>
@@ -64,12 +43,12 @@ export function Header() {
 
   const DropdownMenuMobile = () => {
     const [showMenu, setShowMenu] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef(null);
 
     const toggleMenu = () => setShowMenu(!showMenu);
 
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowMenu(false);
       }
     };
@@ -83,14 +62,14 @@ export function Header() {
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [showMenu]);
 
-    const handleKeyDown = (e: { key: string; }) => {
+    const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
         setShowMenu(false);
       }
     };
 
     return (
-      <div className={`relative inline-block ${styles.linkDM}`} ref={dropdownRef as React.RefObject<HTMLDivElement>}>
+      <div className={`${styles.relative} ${styles.inlineblock}`} ref={dropdownRef}>
         <button
           type="button"
           id="options-menu"
@@ -98,43 +77,18 @@ export function Header() {
           onClick={toggleMenu}
           onKeyDown={handleKeyDown}
           aria-expanded={showMenu}
+          className={styles.menubutton}
         >
-          {/* Uncomment and modify this block if you have session management */}
-          {/* {status === "authenticated" ? (
-            <span className="text-black text-2xl focus:outline-none">
-              <RxHamburgerMenu />
-            </span>
-          ) : (
-            <button className="text-black text-2xl focus:outline-none">
-              <RxHamburgerMenu />
-            </button>
-          )} */}
-          <span className="text-black text-2xl focus:outline-none">
-            <RxHamburgerMenu />
-          </span>
+          <RxHamburgerMenu />
         </button>
 
         {showMenu && (
-          <div className="origin-top-right absolute right-0 rounded-md bg-white ring-1 ring-black ring-opacity-10 divide-y divide-gray-100" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            <div className="px-0">
-              <Link href="/pricing">
-                <span className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
-                  <IoPricetagsOutline className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                  <span>Pricing</span>
+          <div className={`${styles.absolute} ${styles.dropdownmenu}`} role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+            <div className="py-1" role="none">
+              <Link href="/dashboard">
+                <span className={`${styles.dropdownitem}`} role="menuitem">
+                  Dashboard
                 </span>
-              </Link>
-              <Link target="_blank" rel="noopener noreferrer" href="https://pathway.mintlify.app/">
-                <span className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
-                  <IoDocumentOutline className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                  <span>Docs</span>
-                </span>
-              </Link>
-              <Link href={status === "authenticated" ? "/dashboard" : "/signin"}>
-                {/* Uncomment and modify this block if you have session management */}
-                {/* <span className={`flex items-center ${styles.dashboard_M} px-4 py-2 text-sm text-gray-700 hover:bg-gray-100`} role="menuitem">
-                  <MdOutlineSpaceDashboard className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                  {status === "authenticated" ? 'Dashboard' : 'Sign In'}
-                </span> */}
               </Link>
             </div>
           </div>
@@ -144,7 +98,7 @@ export function Header() {
   };
 
   return (
-    <nav className={`${styles.nav}`}>
+    <nav className={styles.nav}>
       {matches ? renderDesktopNav() : renderMobileNav()}
     </nav>
   );
