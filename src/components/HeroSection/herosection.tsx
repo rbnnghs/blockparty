@@ -6,6 +6,7 @@ import styles from "./styles.module.css";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Cloud from "../../../public/assets/cloud.png"
+import NetworkDiagram from "../NetworkDiagram"
 
 export function HeroSection() {
   const featureVariants = {
@@ -50,7 +51,8 @@ export function HeroSection() {
           >
             Leverage XRP for Faster, More Secure Server Usage
           </motion.p>
-          <Image src={Cloud}/>
+          {/* <Image src={Cloud}/> */}
+          <NetworkDiagram />
           <motion.div
             initial="hidden"
             animate="visible"
