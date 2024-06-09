@@ -8,7 +8,7 @@ datasource db {
 }
 
 model tasks {
-  id             String @id
+  id             String @id @default(uuid())
   code           String
   maxspend       Int
   wallet_address String
@@ -16,4 +16,14 @@ model tasks {
   condition      String
   fulfillment    String
   sequence       Int
+}
+
+model servers {
+  id         String @id @default(uuid())
+  name       String
+  region     String
+  load       Int
+  latency    Int
+  bandwidth  Int
+  cost       Int
 }

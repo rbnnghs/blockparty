@@ -1,27 +1,61 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, MenuItem, Select, Typography, Paper, Grid, Button, Tooltip } from '@mui/material';
-
-const servers = [
-  { id: 1, name: 'Server 1', region: 'North America', load: 30, latency: 50, bandwidth: 1000, cost: 10 },
-  { id: 2, name: 'Server 2', region: 'North America', load: 45, latency: 60, bandwidth: 1500, cost: 15 },
-  { id: 3, name: 'Server 3', region: 'North America', load: 25, latency: 40, bandwidth: 2000, cost: 20 },
-  { id: 4, name: 'Server 4', region: 'Europe', load: 20, latency: 70, bandwidth: 2000, cost: 12 },
-  { id: 5, name: 'Server 5', region: 'Europe', load: 50, latency: 80, bandwidth: 1200, cost: 18 },
-  { id: 6, name: 'Server 6', region: 'Europe', load: 35, latency: 65, bandwidth: 1800, cost: 22 },
-  { id: 7, name: 'Server 7', region: 'Asia', load: 50, latency: 100, bandwidth: 1500, cost: 14 },
-  { id: 8, name: 'Server 8', region: 'Asia', load: 40, latency: 90, bandwidth: 1600, cost: 16 },
-  { id: 9, name: 'Server 9', region: 'Asia', load: 55, latency: 110, bandwidth: 1400, cost: 19 },
-  // Add more servers as needed
-];
+import axios from 'axios';
 
 const Dashboard = () => {
   const [region, setRegion] = useState('North America');
+  const [servers, setServers] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [selectedServer, setSelectedServer] = useState(null);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [bestServer, setBestServer] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchServers = async () => {
+      try {
+        const response = await axios.get('/api/servers');
+        console.log("Fetched servers:", response.data.servers);
+        setServers(response.data.servers);
+      } catch (err) {
+        console.error("Error fetching servers:", err);
+        setError("Error fetching servers.");
+      }
+    };
+
+    const fetchTasks = async () => {
+      try {
+        const response = await axios.get('/api/tasks');
+        console.log("Fetched tasks:", response.data.tasks);
+        setTasks(response.data.tasks);
+      } catch (err) {
+        console.error("Error fetching tasks:", err);
+        setError("Error fetching tasks.");
+      }
+    };
+
+    fetchServers();
+    fetchTasks();
+  }, []);
+
+  useEffect(() => {
+    if (servers.length > 0) {
+      const best = servers.filter(server => server.region === region)
+        .sort((a, b) => a.load - b.load)[0];  // Select the server with the least load
+      setBestServer(best);
+    }
+  }, [servers, region]);
 
   const handleRegionChange = (event) => {
     setRegion(event.target.value);
+  };
+
+  const handleTaskChange = (event) => {
+    const taskId = event.target.value;
+    const task = tasks.find(task => task.id === taskId);
+    setSelectedTask(task);
   };
 
   const handleConnect = (server) => {
@@ -32,12 +66,22 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Blockchain-Powered Distributed Servers Dashboard</h1>
+      {error && <p className="text-red-500">{error}</p>}
       <div className="mb-4">
         <Select value={region} onChange={handleRegionChange} className="border p-2 rounded">
           <MenuItem value="North America">North America</MenuItem>
           <MenuItem value="Europe">Europe</MenuItem>
           <MenuItem value="Asia">Asia</MenuItem>
-          {/* Add more regions as needed */}
+        </Select>
+      </div>
+      <div className="mb-4">
+        <Select value={selectedTask ? selectedTask.id : ''} onChange={handleTaskChange} className="border p-2 rounded">
+          <MenuItem value="">Select Task</MenuItem>
+          {tasks.map(task => (
+            <MenuItem key={task.id} value={task.id}>
+              {task.code.slice(0, 50)}...
+            </MenuItem>
+          ))}
         </Select>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -62,10 +106,20 @@ const Dashboard = () => {
           </Paper>
         ))}
       </div>
-      {selectedServer && (
+      {bestServer && (
+        <div className="mt-8 p-4 border rounded">
+          <h2 className="text-xl font-semibold">Suggested Server: {bestServer.name}</h2>
+          <p>Region: {bestServer.region}</p>
+          <p>Load: {bestServer.load}%</p>
+          <p>Latency: {bestServer.latency} ms</p>
+          <p>Bandwidth: {bestServer.bandwidth} Mbps</p>
+          <p>Cost: {bestServer.cost} XRP per compute unit</p>
+        </div>
+      )}
+      {selectedServer && selectedTask && (
         <div className="mt-8 p-4 border rounded">
           <h2 className="text-xl font-semibold">Connected to {selectedServer.name}</h2>
-          <p>Your LLM project is now hosted on {selectedServer.name} located in {selectedServer.region}. Enjoy low latency and high bandwidth for optimal performance.</p>
+          <p>Your task "{selectedTask.code.slice(0, 50)}..." is now hosted on {selectedServer.name} located in {selectedServer.region}. Enjoy low latency and high bandwidth for optimal performance.</p>
           <p>Cost: {selectedServer.cost} XRP per compute unit.</p>
         </div>
       )}

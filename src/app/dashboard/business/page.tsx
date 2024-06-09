@@ -4,7 +4,6 @@ import CopyIcon from "@/components/Icons/CopyIcon";
 import { XrplContext } from "@/hooks/useXrpl";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { randomBytes } from "crypto";
 import { makeid } from "@/lib/utils";
 
 interface Task {
@@ -12,7 +11,7 @@ interface Task {
   maxspend: number;
   code: string;
   status: "pending" | "complete";
-  walled_address: string;
+  wallet_address: string;
 }
 
 const exampleCode = `function add (a)
@@ -38,30 +37,34 @@ export default function BusinessPage() {
       return;
     }
     const resp = await createEscrow(maxSpend)
-    console.log(resp)
-    if (!resp) {
-      return;
-    }
-    await axios.post("/api/tasks", {
+    const newTask = {
       id: makeid(10),
       code,
       maxspend: maxSpend,
       wallet_address: wallet?.classicAddress ?? "",
       ...resp
-    });
-    setTasks((tasks) => [
-      ...tasks,
-      {
-        id: "",
-        code: code,
-        maxspend: maxSpend,
-        status: "pending",
-        walled_address: wallet?.classicAddress ?? "",
-      },
-    ]);
-    setMaxSpend(undefined);
-    setCode("");
-    setTaskFormOpen(false);
+    };
+
+    console.log("Submitting new task:", newTask);
+
+    try {
+      
+      const response = await axios.post("/api/tasks", newTask);
+      console.log("Task submission response:", response);
+
+      setTasks((tasks) => [
+        ...tasks,
+        {
+          ...newTask,
+          status: "pending",
+        },
+      ]);
+      setMaxSpend(undefined);
+      setCode("");
+      setTaskFormOpen(false);
+    } catch (error) {
+      console.error("Error submitting task:", error);
+    }
   }
 
   useEffect(() => {
@@ -75,7 +78,7 @@ export default function BusinessPage() {
         <p className="text-stone-500 text-sm">
           Your current account balance is{" "}
           <span className="text-[#008aff]">{balance}</span>. Deposit more XRP
-          directly the the address below to increase your available balance.
+          directly to the address below to increase your available balance.
         </p>
 
         <CopyTextField
@@ -124,7 +127,7 @@ export default function BusinessPage() {
             />
             <button
               className="py-2 px-4 text-[#008aff] transition-all flex max-w-[5rem] duration-200 hover:scale-105 active:scale-95"
-              onClick={(e) => submitTask()}
+              onClick={submitTask}
             >
               Submit
             </button>
@@ -132,7 +135,7 @@ export default function BusinessPage() {
         )}
         <button
           className="py-2 px-4 text-[#008aff] transition-all duration-200 hover:scale-105 active:scale-95"
-          onClick={(e) => setTaskFormOpen((v) => !v)}
+          onClick={() => setTaskFormOpen((v) => !v)}
         >
           {taskFormOpen ? "Hide" : "+ New Task"}
         </button>
