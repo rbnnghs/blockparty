@@ -158,3 +158,5 @@ return (
     </nav>
   );
 }
+
+export default Header;
