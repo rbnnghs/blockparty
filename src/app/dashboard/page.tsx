@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Container, MenuItem, Select, Typography, Paper, Grid, Button, Tooltip } from '@mui/material';
 import axios from 'axios';
+import styles from './dashboard.module.css';
 
 const Dashboard = () => {
   const [region, setRegion] = useState('North America');
@@ -41,6 +41,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
+    console.log("Servers after region change:", servers.filter(server => server.region === region));
     if (servers.length > 0) {
       const best = servers.filter(server => server.region === region)
         .sort((a, b) => a.load - b.load)[0];  // Select the server with the least load
@@ -50,6 +51,7 @@ const Dashboard = () => {
 
   const handleRegionChange = (event) => {
     setRegion(event.target.value);
+    console.log("Region changed to:", event.target.value);
   };
 
   const handleTaskChange = (event) => {
@@ -64,63 +66,49 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Blockchain-Powered Distributed Servers Dashboard</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      <div className="mb-4">
-        <Select value={region} onChange={handleRegionChange} className="border p-2 rounded">
-          <MenuItem value="North America">North America</MenuItem>
-          <MenuItem value="Europe">Europe</MenuItem>
-          <MenuItem value="Asia">Asia</MenuItem>
-        </Select>
+    <div className={styles.container}>
+      {error && <p className={styles.error}>{error}</p>}
+      <div className={styles.selectBox}>
+        <select value={region} onChange={handleRegionChange} className={styles.select}>
+          <option value="North America">North America</option>
+          <option value="Europe">Europe</option>
+          <option value="Asia">Asia</option>
+        </select>
       </div>
-      <div className="mb-4">
-        <Select value={selectedTask ? selectedTask.id : ''} onChange={handleTaskChange} className="border p-2 rounded">
-          <MenuItem value="">Select Task</MenuItem>
+      <div className={styles.selectBox}>
+        <select value={selectedTask ? selectedTask.id : ''} onChange={handleTaskChange} className={styles.select}>
+          <option value="">Select Task</option>
           {tasks.map(task => (
-            <MenuItem key={task.id} value={task.id}>
+            <option key={task.id} value={task.id}>
               {task.code.slice(0, 50)}...
-            </MenuItem>
+            </option>
           ))}
-        </Select>
+        </select>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className={styles.gridContainer}>
         {servers.filter(server => server.region === region).map((server) => (
-          <Paper key={server.id} className="p-4 border rounded">
-            <h2 className="text-xl font-semibold">{server.name}</h2>
-            <p>Region: {server.region}</p>
-            <p>Load: {server.load}%</p>
-            <p>Latency: {server.latency} ms</p>
-            <p>Bandwidth: {server.bandwidth} Mbps</p>
-            <p>Cost: {server.cost} XRP per compute unit</p>
-            <Tooltip title="Connect to the best and closest server for your LLM project">
-              <Button
-                variant="contained"
-                color="primary"
-                className="mt-2"
-                onClick={() => handleConnect(server)}
-              >
-                Connect
-              </Button>
-            </Tooltip>
-          </Paper>
+          <div key={server.id} className={styles.card}>
+            <div className={styles.cardHeader}>{server.name}</div>
+            <div className={styles.cardBody}>
+              <p>Region: {server.region}</p>
+              <p>Load: {server.load}%</p>
+              <p>Latency: {server.latency} ms</p>
+              <p>Bandwidth: {server.bandwidth} Mbps</p>
+              <p>Cost: {server.cost} XRP per compute unit</p>
+            </div>
+            <div className={styles.cardFooter}>
+              <a className={styles.button} onClick={() => handleConnect(server)}>Connect</a>
+            </div>
+          </div>
         ))}
       </div>
-      {bestServer && (
-        <div className="mt-8 p-4 border rounded">
-          <h2 className="text-xl font-semibold">Suggested Server: {bestServer.name}</h2>
-          <p>Region: {bestServer.region}</p>
-          <p>Load: {bestServer.load}%</p>
-          <p>Latency: {bestServer.latency} ms</p>
-          <p>Bandwidth: {bestServer.bandwidth} Mbps</p>
-          <p>Cost: {bestServer.cost} XRP per compute unit</p>
-        </div>
-      )}
       {selectedServer && selectedTask && (
-        <div className="mt-8 p-4 border rounded">
-          <h2 className="text-xl font-semibold">Connected to {selectedServer.name}</h2>
-          <p>Your task "{selectedTask.code.slice(0, 50)}..." is now hosted on {selectedServer.name} located in {selectedServer.region}. Enjoy low latency and high bandwidth for optimal performance.</p>
-          <p>Cost: {selectedServer.cost} XRP per compute unit.</p>
+        <div className={`${styles.card} ${styles.mt8}`}>
+          <div className={styles.cardHeader}>Connected to {selectedServer.name}</div>
+          <div className={styles.cardBody}>
+            <p>Your task "{selectedTask.code.slice(0, 50)}..." is now hosted on {selectedServer.name} located in {selectedServer.region}. Enjoy low latency and high bandwidth for optimal performance.</p>
+            <p>Cost: {selectedServer.cost} XRP per compute unit.</p>
+          </div>
         </div>
       )}
     </div>
